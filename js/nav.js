@@ -25,11 +25,22 @@ function navLoginClick(evt) {
 
 $navLogin.on("click", navLoginClick);
 
+/** Show favorites list on click on "favorites" */
+
+function navFavoritesClick(evt) {
+  console.debug("navFavoritesClick", evt);
+  hidePageComponents();
+  $loginForm.show();
+  $signupForm.show();
+}
+
+$navFavorites.on("click", navFavoritesClick);
+
+
 /** When a user first logins in, update the navbar to reflect that. */
 
 function updateNavOnLogin() {
   console.debug("updateNavOnLogin");
-  $(".main-nav-links").show();
   $navLogin.hide();
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
@@ -38,9 +49,8 @@ function updateNavOnLogin() {
 /** Show submit form on click on "submit" */
 
 function navSubmitClick(evt) {
-  console.log('click worked')
   console.debug("navSubmitClick", evt);
-  $submitForm.show();
+  $submitForm.slideDown();
 }
 
 $navSubmit.on("click", navSubmitClick);

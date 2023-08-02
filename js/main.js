@@ -15,6 +15,8 @@ const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
 const $navSubmit = $("#nav-submit");
+const $navFavorites = $("#nav-favorites");
+const $navLoggedIn = $("#nav-submit, #nav-favorites, #nav-my-stories");
 
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After
@@ -35,6 +37,7 @@ function hidePageComponents() {
 
 async function start() {
   console.debug("start");
+  $navLoggedIn.hide();
 
   // "Remember logged-in user" and log in, if credentials in localStorage
   await checkForRememberedUser();

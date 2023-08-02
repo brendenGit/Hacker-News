@@ -21,3 +21,8 @@ nav {
   margin-left: auto;
   text-align: right;
 }
+
+.logged-in-nav a::before {
+  content: '|';
+  margin-right: 10px;
+}

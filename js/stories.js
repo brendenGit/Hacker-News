@@ -45,16 +45,34 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
+    $story.on("click", favoriteStoryClick);
     $allStoriesList.append($story);
   }
-
   $allStoriesList.show();
 }
 
-async function submitNewStory() {
-  storyList = await StoryList.getStories();
-  $storiesLoadingMsg.remove();
+async function submitNewStory(evt) {
+  console.debug("submitNewStory", evt);
+  evt.preventDefault();
 
-  putStoriesOnPage();
+  const author = $("#author-name").val();
+  const title = $("#story-title").val();
+  const url = $("#story-url").val();
+
+  const newStory = {title, author, url}
+  await storyList.addStory(currentUser, newStory)
+  putStoriesOnPage()
+
+  $submitForm.trigger("reset");
+  $submitForm.slideUp();
 }
 
+$submitForm.on("submit", submitNewStory);
+
+
+async function favoriteStoryClick(evt) {
+
+  const storyId = evt.target.id
+  await currentUser.addFavorite(currentUser, storyId)
+
+}

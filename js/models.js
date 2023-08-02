@@ -76,13 +76,13 @@ class StoryList {
   async addStory(user, newStory) {
     // UNIMPLEMENTED: complete this function!
     const token = user.loginToken;
-    
+
     const response = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
       data: { token, story: newStory },
     })
-    
+
     const story = new Story(response.data.story)
     storyList.stories.unshift(story)
     user.ownStories.unshift(story)
@@ -205,5 +205,17 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  async addFavorite(user, storyId) {
+
+    const postResponse = await axios({
+      url: `${BASE_URL}/users/${user.username}/favorites/${storyId}`,
+      method: "POST",
+      data: { token: user.loginToken },
+    })
+
+    const test = response.data;
+    console.log(test)
   }
 }
