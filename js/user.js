@@ -111,9 +111,8 @@ function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
 
   $allStoriesList.show();
-  $navLoggedIn.show();
-  $loginForm.hide()
-  $signupForm.hide()
-
+  $loginForm.hide();
+  $signupForm.hide();
+  putStoriesOnPage();
   updateNavOnLogin();
 }

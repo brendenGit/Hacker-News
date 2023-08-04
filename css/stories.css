@@ -21,21 +21,13 @@
 
 .story-link {
   color: black;
-  font-size: 0.85rem;
-  font-weight: normal;
+  font-size: 1rem;
+  font-weight: bold;
   margin: 18px 0;
 }
 
 .story-link:hover {
   text-decoration: none;
-}
-
-.story-author {
-  margin-left: 2em;
-}
-
-.story-user {
-  display: block;
 }
 
 .submit-form-container {
@@ -45,4 +37,40 @@
 .submit-form button {
   width: 4rem;
   margin-left: 80px;
+}
+
+.fa-trash-can {
+  color: black;
+}
+
+.fa-trash-can:hover {
+  color: red; 
+  cursor: pointer;
+}
+
+.story-author, .story-user {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2%;
+  align-items: right;
+  font-size: .95rem;
+  font-weight: bolder;
+}
+
+.story-link {
+  font-weight: 1000000;
+}
+
+.story-user {
+  margin-top: 0px;
+  margin-left: 2.5%;
+  color: orange;
+  border-bottom: 1px solid #ccc;
+}
+
+.story-author {
+  padding-bottom: 1%;
+  margin-left: 2.5%;
+  padding-top: 1%;
+  color: red;
 }

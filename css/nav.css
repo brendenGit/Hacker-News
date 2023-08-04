@@ -4,7 +4,7 @@ nav {
   display: flex;
   background-color: #ff6600;
   align-items: center;
-  padding: 5px 20px;
+  padding: 3%;
   border-radius: 3px 3px 0 0;
 }
 
@@ -15,11 +15,13 @@ nav {
 .nav-link {
   font-size: 0.85rem;
   margin: 0 3px;
+  font-weight: bolder;
 }
 
 .nav-right {
   margin-left: auto;
   text-align: right;
+  font-weight: normal;
 }
 
 .logged-in-nav a::before {

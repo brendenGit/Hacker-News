@@ -23,8 +23,21 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+  let favoriteStatus;
+  if (!currentUser) {
+    favoriteStatus = document.createElement('i');
+  } else if (currentUser.favorites.some(s => s.storyId === story.storyId)) {
+    favoriteStatus = document.createElement('i');
+    favoriteStatus.classList.add('fa-solid', 'fa-star');
+  } else {
+    favoriteStatus = document.createElement('i');
+    favoriteStatus.classList.add('fa-regular', 'fa-star');
+  }
+
+
   return $(`
       <li id="${story.storyId}">
+        ${favoriteStatus.outerHTML}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -37,17 +50,26 @@ function generateStoryMarkup(story) {
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
-function putStoriesOnPage() {
+async function putStoriesOnPage(stories) {
   console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
-  // loop through all of our stories and generate HTML for them
-  for (let story of storyList.stories) {
-    const $story = generateStoryMarkup(story);
-    $story.on("click", favoriteStoryClick);
-    $allStoriesList.append($story);
+  if (stories) {
+    console.log('entered stories')
+    for (let story of stories) {
+      const $story = generateStoryMarkup(story);
+      $story.on("click", toggleFavorite);
+      $allStoriesList.append($story);
+    }
+  } else {
+    for (let story of storyList.stories) {
+      const $story = generateStoryMarkup(story);
+      $story.on("click", toggleFavorite);
+      $allStoriesList.append($story);
+    }
   }
+
   $allStoriesList.show();
 }
 
@@ -59,7 +81,7 @@ async function submitNewStory(evt) {
   const title = $("#story-title").val();
   const url = $("#story-url").val();
 
-  const newStory = {title, author, url}
+  const newStory = { title, author, url }
   await storyList.addStory(currentUser, newStory)
   putStoriesOnPage()
 
@@ -70,9 +92,23 @@ async function submitNewStory(evt) {
 $submitForm.on("submit", submitNewStory);
 
 
-async function favoriteStoryClick(evt) {
-
-  const storyId = evt.target.id
-  await currentUser.addFavorite(currentUser, storyId)
-
+async function toggleFavorite(evt) {
+  const storyId = evt.currentTarget.id;
+  const isFavorite = evt.target.classList.contains('fa-solid')
+  if ((evt.target.nodeName === 'I')) {
+    if (isFavorite) {
+      evt.target.classList.remove('fa-solid')
+      evt.target.classList.add('fa-regular')
+    } else {
+      evt.target.classList.remove('fa-regular')
+      evt.target.classList.add('fa-solid')
+    }
+    await currentUser.addOrRemoveFavorite(currentUser, storyId, isFavorite)
+  }
+  const response = await axios({
+    url: `${BASE_URL}/users/${currentUser.username}`,
+    method: "GET",
+    params: { token: currentUser.loginToken },
+  })
+  currentUser.favorites = response.data.user.favorites.map(s => new Story(s));
 }

@@ -3,6 +3,7 @@
 body {
   font-family: Arimo, sans-serif;
   margin: 8px 7.5vw;
+  background-color: skyblue;
 }
 
 h1 {
@@ -109,7 +110,6 @@ form > hr {
 .submit-input label {
   width: 70px;
 }
-
 
 /* responsive queries for tightening things up for mobile. */
 
